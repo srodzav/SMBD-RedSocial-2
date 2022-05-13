@@ -12,6 +12,7 @@ public class Persona extends javax.swing.JFrame {
 
     public Persona() {
         initComponents();
+        muestraDB();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -33,6 +34,8 @@ public class Persona extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTDB = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTdb = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -140,6 +143,19 @@ public class Persona extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTDB);
 
+        jTdb.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(jTdb);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -148,13 +164,19 @@ public class Persona extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addGap(150, 150, 150))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -193,6 +215,46 @@ public class Persona extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void muestraDB() {
+        Connection c = null;
+        Statement stmt = null;
+        String datos[] = new String[7];
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("id_persona");
+        modelo.addColumn("nombre");
+        modelo.addColumn("nombre_red_social");
+        modelo.addColumn("imagen_perfil");
+        modelo.addColumn("rol");
+        modelo.addColumn("numero_amigos");
+        modelo.addColumn("fecha_registro");
+        jTdb.setModel(modelo);
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM persona");
+            while(rs.next())
+            {
+                datos[0] = rs.getString("id_persona");
+                datos[1] = rs.getString("nombre");
+                datos[2] = rs.getString("nombre_red_social");
+                datos[3] = rs.getString("imagen_perfil");
+                datos[4] = rs.getString("rol");
+                datos[5] = rs.getString("numero_amigos");
+                datos[6] = rs.getString("fecha_registro");
+                modelo.addRow(datos);
+            }
+            stmt.close();
+            c.commit();
+            c.close();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -207,7 +269,9 @@ public class Persona extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTDB;
+    private javax.swing.JTable jTdb;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRol;
     private javax.swing.JTextField txtUsername;
