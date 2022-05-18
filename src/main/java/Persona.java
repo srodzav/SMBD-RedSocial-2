@@ -7,9 +7,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.*;
 import javax.swing.table.DefaultTableModel;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;    
+import javax.swing.JFileChooser;
 
 public class Persona extends javax.swing.JFrame {
 
+    String _filename = null;
+    String id = null;
     public Persona() {
         initComponents();
         muestraDB();
@@ -25,15 +30,13 @@ public class Persona extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         txtUsername = new javax.swing.JTextField();
-        txtRol = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        rolCb = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTDB = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTdb = new javax.swing.JTable();
 
@@ -51,9 +54,19 @@ public class Persona extends javax.swing.JFrame {
 
         txtNombre.setText(" ");
 
-        txtRol.setText(" ");
-
         jButton1.setText("Cargar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        rolCb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Administrador", "Usuario" }));
+        rolCb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rolCbActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -70,8 +83,8 @@ public class Persona extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtUsername)
                     .addComponent(txtNombre)
-                    .addComponent(txtRol)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(rolCb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -90,19 +103,36 @@ public class Persona extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(rolCb))
+                .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
 
         jButton2.setText("Agregar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Modificar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Eliminar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -130,19 +160,6 @@ public class Persona extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Base de Datos"));
 
-        jTDB.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane1.setViewportView(jTDB);
-
         jTdb.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -154,16 +171,17 @@ public class Persona extends javax.swing.JFrame {
 
             }
         ));
+        jTdb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTdbMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTdb);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -172,9 +190,7 @@ public class Persona extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -200,13 +216,134 @@ public class Persona extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            String nombre = txtNombre.getText();
+            String username = txtUsername.getText();
+            int rol = rolCb.getSelectedIndex();
+            
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+            LocalDateTime now = LocalDateTime.now();
+            
+            stmt.executeUpdate("INSERT INTO persona (nombre,nombre_red_social,imagen_perfil,rol,numero_amigos,fecha_registro) "
+                    + " VALUES ('" + nombre + "','" + username + "','" + _filename + "'," + (rol-1) + ",0,'" + dtf.format(now) + "')");
+           
+            txtNombre.setText("");
+            txtUsername.setText("");
+            rolCb.setSelectedIndex(0);
+            _filename = null;
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void rolCbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rolCbActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rolCbActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser chooser=new JFileChooser();
+        chooser.showSaveDialog(null);
+
+        String path=chooser.getSelectedFile().getAbsolutePath();
+        String filename=chooser.getSelectedFile().getName();
+        _filename = filename;
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTdbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTdbMouseClicked
+        id = jTdb.getValueAt(jTdb.getSelectedRow(), 0).toString();
+        txtNombre.setText(jTdb.getValueAt(jTdb.getSelectedRow(), 1).toString());
+        txtUsername.setText(jTdb.getValueAt(jTdb.getSelectedRow(), 2).toString());
+        
+        int rol = (jTdb.getValueAt(jTdb.getSelectedRow(), 4).toString().compareTo("0") == 0) ? 0 : 1;
+        
+        rolCb.setSelectedIndex( rol + 1 );
+        _filename = jTdb.getValueAt(jTdb.getSelectedRow(), 3).toString();
+    }//GEN-LAST:event_jTdbMouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            
+            stmt.executeUpdate("DELETE FROM persona WHERE id_persona = " + id);
+           
+            txtNombre.setText("");
+            txtUsername.setText("");
+            rolCb.setSelectedIndex(0);
+            _filename = null;
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            
+            String nombre = txtNombre.getText();
+            String username = txtUsername.getText();
+            int rol = rolCb.getSelectedIndex();
+            
+            stmt.executeUpdate("UPDATE persona "
+                    + " SET nombre = '"+nombre+"', nombre_red_social = '"+username+"', imagen_perfil = '"+_filename+"', rol = "+(rol-1)+""
+                    + "WHERE id_persona = " + id);
+           
+            txtNombre.setText("");
+            txtUsername.setText("");
+            rolCb.setSelectedIndex(0);
+            _filename = null;
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -268,12 +405,10 @@ public class Persona extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTDB;
     private javax.swing.JTable jTdb;
+    private javax.swing.JComboBox<String> rolCb;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtRol;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
