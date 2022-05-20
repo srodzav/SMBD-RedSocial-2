@@ -199,7 +199,7 @@ public class Amigo extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,8 +272,15 @@ public class Amigo extends javax.swing.JFrame {
                 return;
             }
             
-            stmt.executeUpdate("INSERT INTO Amigo (id_persona, id_persona_amigo, solicitud_amistad, fecha_inicio_amistad) " +
-                    "VALUES (" + amgio.split("-")[0] + "," + amigoAgregar.split("-")[0] + ",'"+ (amistad ? 1 : 0) + "','" + dtf.format(now) + "')");
+            String cadena = "INSERT INTO Amigo (id_persona, id_persona_amigo, solicitud_amistad, fecha_inicio_amistad) " +
+                    "VALUES (" + amgio.split("-")[0] + "," + amigoAgregar.split("-")[0] + ",'"+ (amistad ? 1 : 0) + "','" + dtf.format(now) + "') "
+                            + " WHERE not exists"
+                            + " (select * from Amigo where id_persona= " + amgio.split("-")[0] + " AND id_persona_amigo = " + amigoAgregar.split("-")[0] + " "
+                                    + "OR id_persona= " + amigoAgregar.split("-")[0] + " AND id_persona_amigo = " + amgio.split("-")[0] + " ) ";
+            
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+cadena);
+            
+            stmt.executeUpdate(cadena);
            
             amigoCB.setSelectedIndex(0);
             amigoAgregarCB.setSelectedIndex(0);
@@ -303,8 +310,6 @@ public class Amigo extends javax.swing.JFrame {
                 amigoAgregarCB.setSelectedIndex(i);
             }
         }
-        
-        
     }//GEN-LAST:event_jTdbMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
