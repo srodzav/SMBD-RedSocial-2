@@ -12,6 +12,9 @@ import javax.swing.table.DefaultTableModel;
 public class Grupo extends javax.swing.JFrame {
     String _filename = null;
     String id = null;
+    String nombre = null;
+    String descripcion = null;
+    
     public Grupo() {
         initComponents();
         muestraDB();
@@ -112,6 +115,11 @@ public class Grupo extends javax.swing.JFrame {
         });
 
         jButton3.setText("Modificar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Eliminar");
 
@@ -152,6 +160,11 @@ public class Grupo extends javax.swing.JFrame {
 
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -260,7 +273,7 @@ public class Grupo extends javax.swing.JFrame {
             
             while(rs.next())
             {
-                jComboBox1.addItem(rs.getString("id_persona") + " - " + rs.getString("nombre")+ " - " + rs.getString("nombre_red_social"));
+                jComboBox1.addItem(rs.getString("id_persona") +  " - " + rs.getString("nombre_red_social"));
             }
             stmt.close();
             c.commit();
@@ -271,6 +284,73 @@ public class Grupo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_formComponentShown
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            
+            //String amgio = amigoCB.getSelectedItem().toString();
+            //String amigoAgregar = amigoAgregarCB.getSelectedItem().toString();
+            //boolean amistad = jCheckBox1.isSelected();
+            
+            //if(amgio.split("-")[0].compareTo(amigoAgregar.split("-")[0])==0){
+                JOptionPane.showMessageDialog(null, "No puedes poner en amistad a la misma persona ");
+                //amigoCB.setSelectedIndex(0);
+                //amigoAgregarCB.setSelectedIndex(0);
+                //jCheckBox1.setSelected(false);
+
+                stmt.close();
+                c.commit();
+                c.close();
+                muestraDB();
+                //return;
+            //}
+
+            /*String cadena = "UPDATE Amigo SET id_persona=" + amgio.split("-")[0] + 
+                    ", id_persona_amigo=" + amigoAgregar.split("-")[0] + 
+                    ", solicitud_amistad='" + (amistad == false ? 0 : 1) +"' WHERE id_amigo = " + id;
+                    */
+            
+            //stmt.executeUpdate(cadena);
+           
+            //amigoCB.setSelectedIndex(0);
+            //amigoAgregarCB.setSelectedIndex(0);
+            //jCheckBox1.setSelected(false);
+            //id = null;
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        nombre = jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString();
+        
+        for (int i = 0; i < jComboBox1.getItemCount(); i++) {
+            if (jComboBox1.getItemAt(i).toString().contains(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString())) {
+                jComboBox1.setSelectedIndex(i);
+            }
+        }
+        _filename = jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString();
+        descripcion = jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString();
+        
+        jTextField1.setText(nombre);
+        jTextField2.setText(descripcion);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -286,7 +366,7 @@ public class Grupo extends javax.swing.JFrame {
         String datos[] = new String[6];
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("id_grupo");
-        modelo.addColumn("id_creador");
+        modelo.addColumn("creador");
         modelo.addColumn("nombre");
         modelo.addColumn("descripcion");
         modelo.addColumn("imagen");
@@ -297,11 +377,14 @@ public class Grupo extends javax.swing.JFrame {
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM grupo");
+            ResultSet rs = stmt.executeQuery("SELECT A.id_grupo, CONCAT(P.id_persona, ' - ' ,P.nombre_red_social) as amigo,A.nombre, A.imagen, A.descripcion, A.fecha_creacion " +
+                 " FROM Grupo A "+
+                " INNER JOIN Persona AS P " +
+                " ON A.id_creador = P.id_persona; ");
             while(rs.next())
             {
                 datos[0] = rs.getString("id_grupo");
-                datos[1] = rs.getString("id_creador");
+                datos[1] = rs.getString("amigo");
                 datos[2] = rs.getString("nombre");
                 datos[3] = rs.getString("imagen");
                 datos[4] = rs.getString("descripcion");
