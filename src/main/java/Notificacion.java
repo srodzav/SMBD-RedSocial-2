@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Notificacion extends javax.swing.JFrame {
 
+    String id=null;
     /**
      * Creates new form Notificacion
      */
@@ -54,6 +55,7 @@ public class Notificacion extends javax.swing.JFrame {
         jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Notificación");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
@@ -118,8 +120,18 @@ public class Notificacion extends javax.swing.JFrame {
         });
 
         jButton3.setText("Modificar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Eliminar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -158,6 +170,11 @@ public class Notificacion extends javax.swing.JFrame {
 
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -213,40 +230,26 @@ public class Notificacion extends javax.swing.JFrame {
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            String amgio = personaCB.getSelectedItem().toString();
-            String amigoAgregar = comparteCB.getSelectedItem().toString();
+            String persona = personaCB.getSelectedItem().toString();
+            String comparte = comparteCB.getSelectedItem().toString();
             String mensaje = txtMensaje.getText();
-            boolean amistad = vistoCB.isSelected();
+            boolean visto = vistoCB.isSelected();
             
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
             LocalDateTime now = LocalDateTime.now();
+        
             
-            if(amgio.split("-")[0].compareTo(amigoAgregar.split("-")[0])==0){
-                JOptionPane.showMessageDialog(null, "No puedes poner en amistad a la misma persona ");
-                personaCB.setSelectedIndex(0);
-                comparteCB.setSelectedIndex(0);
-                //jCheckBox1.setSelected(false);
-
-                stmt.close();
-                c.commit();
-                c.close();
-                muestraDB();
-                return;
-            }
-            
-            String cadena = "INSERT INTO Amigo (id_persona, id_persona_amigo, solicitud_amistad, fecha_inicio_amistad) " +
-                    "VALUES (" + amgio.split("-")[0] + "," + amigoAgregar.split("-")[0] + ",'"+ (amistad ? 1 : 0) + "','" + dtf.format(now) + "') "
-                            + " WHERE not exists"
-                            + " (select * from Amigo where id_persona= " + amgio.split("-")[0] + " AND id_persona_amigo = " + amigoAgregar.split("-")[0] + " "
-                                    + "OR id_persona= " + amigoAgregar.split("-")[0] + " AND id_persona_amigo = " + amgio.split("-")[0] + " ) ";
+            String cadena = "INSERT INTO Notificacion (id_persona, id_quien_compartio, mensaje, visto, fecha_notficacion) " +
+                    "VALUES (" + persona.split("-")[0] + "," + comparte.split("-")[0] + ",'" + mensaje + "','" + (visto ? "1" : "0") + "','" + dtf.format(now) + "')";
             
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+cadena);
             
             stmt.executeUpdate(cadena);
            
-            //amigoCB.setSelectedIndex(0);
-            //amigoAgregarCB.setSelectedIndex(0);
-            //jCheckBox1.setSelected(false);
+            personaCB.setSelectedIndex(0);
+            comparteCB.setSelectedIndex(0);
+            txtMensaje.setText("");
+            vistoCB.setSelected(false);
             
             stmt.close();
             c.commit();
@@ -258,6 +261,94 @@ public class Notificacion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        boolean visto = jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString().compareTo("1") == 0 ? true : false;
+        vistoCB.setSelected(visto);
+        txtMensaje.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
+        
+        for (int i = 0; i < personaCB.getItemCount(); i++) {
+            if (personaCB.getItemAt(i).toString().contains(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString())) {
+                personaCB.setSelectedIndex(i);
+            }
+            if (comparteCB.getItemAt(i).toString().contains(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString())) {
+                comparteCB.setSelectedIndex(i);
+            }
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            
+            stmt.executeUpdate("DELETE FROM Notificacion WHERE id_notificacion = " + id);
+           
+            personaCB.setSelectedIndex(0);
+            comparteCB.setSelectedIndex(0);
+            txtMensaje.setText("");
+            vistoCB.setSelected(false);
+            id = null;
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            
+            String persona = personaCB.getSelectedItem().toString();
+            String comparte = comparteCB.getSelectedItem().toString();
+            String mensaje = txtMensaje.getText();
+            boolean visto = vistoCB.isSelected();
+            
+      
+
+            String cadena = 
+                "UPDATE Notificacion SET id_persona=" + persona.split("-")[0] +
+                ", id_quien_compartio=" + comparte.split("-")[0] +
+                ", mensaje='" + mensaje +
+                "', visto='" + (visto == false ? 0 : 1) + "' WHERE id_notificacion = " + id;
+        
+            
+            stmt.executeUpdate(cadena);
+           
+            personaCB.setSelectedIndex(0);
+            comparteCB.setSelectedIndex(0);
+            txtMensaje.setText("");
+            vistoCB.setSelected(false);
+            id = null;
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     public void llenaComboBox(){
         Connection c = null;
@@ -274,8 +365,8 @@ public class Notificacion extends javax.swing.JFrame {
             
             while(rs.next())
             {
-                personaCB.addItem(rs.getString("id_persona") + " - " + rs.getString("nombre_red_social"));
-                comparteCB.addItem(rs.getString("id_persona") + " - " + rs.getString("nombre_red_social"));
+                personaCB.addItem(rs.getString("id_persona") + "-" + rs.getString("nombre_red_social"));
+                comparteCB.addItem(rs.getString("id_persona") + "-" + rs.getString("nombre_red_social"));
             }
             stmt.close();
             c.commit();
@@ -371,8 +462,9 @@ public class Notificacion extends javax.swing.JFrame {
                 datos[0] = rs.getString("id_notificacion");
                 datos[1] = rs.getString("persona");
                 datos[2] = rs.getString("amigo");
-                datos[3] = rs.getString("visto");
-                datos[4] = rs.getString("fecha_notficacion");
+                datos[3] = rs.getString("mensaje");
+                datos[4] = rs.getString("visto");
+                datos[5] = rs.getString("fecha_notficacion");
                 modelo.addRow(datos);
             }
             stmt.close();

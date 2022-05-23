@@ -52,10 +52,20 @@ public class Menu extends javax.swing.JFrame {
         });
 
         jButton3.setText("Grupo");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Persona-Grupo");
 
         jButton5.setText("Notificacion");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Recurso");
 
@@ -170,6 +180,17 @@ public class Menu extends javax.swing.JFrame {
         amigo.setVisible(true);
         amigo.setSize(new Dimension(600,500));
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        JFrame grupo=new Grupo();
+        grupo.setVisible(true);
+        grupo.setSize(new Dimension(600,500));
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        JFrame grupo=new Notificacion();
+        grupo.setVisible(true);
+        grupo.setSize(new Dimension(600,500));    }//GEN-LAST:event_jButton5ActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
