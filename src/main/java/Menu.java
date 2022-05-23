@@ -59,6 +59,11 @@ public class Menu extends javax.swing.JFrame {
         });
 
         jButton4.setText("Persona-Grupo");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Notificacion");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -191,6 +196,12 @@ public class Menu extends javax.swing.JFrame {
         JFrame grupo=new Notificacion();
         grupo.setVisible(true);
         grupo.setSize(new Dimension(600,500));    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        JFrame grupo=new PersonaGrupo();
+        grupo.setVisible(true);
+        grupo.setSize(new Dimension(427, 484));
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
