@@ -87,6 +87,11 @@ public class Menu extends javax.swing.JFrame {
         });
 
         jButton8.setText("Comentairo");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Contenido");
 
@@ -225,6 +230,12 @@ public class Menu extends javax.swing.JFrame {
         grupo.setVisible(true);
         grupo.setSize(new Dimension(600,500)); 
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        JFrame grupo=new Comentario();
+        grupo.setVisible(true);
+        grupo.setSize(new Dimension(600,500)); 
+    }//GEN-LAST:event_jButton8ActionPerformed
 
 
     public static void main(String args[]) {
