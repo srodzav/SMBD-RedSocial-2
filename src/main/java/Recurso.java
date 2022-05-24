@@ -1,5 +1,13 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -11,12 +19,13 @@ import javax.swing.JFileChooser;
  * @author Eduardo
  */
 public class Recurso extends javax.swing.JFrame {
-
+    String id;
     /**
      * Creates new form Recurso
      */
     public Recurso() {
         initComponents();
+        muestraDB();
     }
 
     /**
@@ -78,11 +87,11 @@ public class Recurso extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tam, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                    .addComponent(ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -107,10 +116,25 @@ public class Recurso extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
 
         jButton2.setText("Agregar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Modificar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Eliminar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -149,6 +173,11 @@ public class Recurso extends javax.swing.JFrame {
 
             }
         ));
+        jTable1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jTable1MouseMoved(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -203,12 +232,112 @@ public class Recurso extends javax.swing.JFrame {
 
         String path=chooser.getSelectedFile().getAbsolutePath();
         Long size = chooser.getSelectedFile().length();
-        tipo.setText(path.split(".")[1]);
+        
+        tipo.setText(path.split("\\.")[1]);
         tam.setText(size.toString());
         ruta.setText(path);
-        String filename=chooser.getSelectedFile().getName();
+        //String filename=chooser.getSelectedFile().getName();
         //_filename = filename;
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            
+            String cadena = cadena = "INSERT INTO Recurso (ruta, tipo, tamano) " +
+                "VALUES ('" + ruta.getText() + "','" + tipo.getText() + "','" + tam.getText() + "')";
+            
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+cadena);
+            
+            stmt.executeUpdate(cadena);
+           
+            ruta.setText("...........");
+            tipo.setText("..........");
+            tam.setText("..........");
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseMoved
+        id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        ruta.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+        tipo.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+        tam.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
+    }//GEN-LAST:event_jTable1MouseMoved
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            
+            stmt.executeUpdate("DELETE FROM Recurso WHERE id_recurso = " + id);
+           
+            ruta.setText("...........");
+            tipo.setText("..........");
+            tam.setText("..........");
+            id = null;
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+
+            String cadena = 
+                "UPDATE Recurso SET " +
+                "ruta='" + ruta.getText() + "', tipo='" + tipo.getText() + "', tamano='" + tam.getText() + "' WHERE id_recurso = " +id;
+        
+            
+            stmt.executeUpdate(cadena);
+           
+            ruta.setText("...........");
+            tipo.setText("..........");
+            tam.setText("..........");
+            id = null;
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -243,6 +372,43 @@ public class Recurso extends javax.swing.JFrame {
                 new Recurso().setVisible(true);
             }
         });
+    }
+    
+    public void muestraDB() {
+        Connection c = null;
+        Statement stmt = null;
+        String datos[] = new String[7];
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("id_recurso");
+        modelo.addColumn("ruta");
+        modelo.addColumn("tipo");
+        modelo.addColumn("tamano");
+        jTable1.setModel(modelo);
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            
+            String cadena = "SELECT * FROM Recurso";
+            
+            ResultSet rs = stmt.executeQuery(cadena);
+            while(rs.next())
+            {
+                datos[0] = rs.getString("id_recurso");
+                datos[1] = rs.getString("ruta");
+                datos[2] = rs.getString("tipo");
+                datos[3] = rs.getString("tamano");
+                modelo.addRow(datos);
+            }
+            stmt.close();
+            c.commit();
+            c.close();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

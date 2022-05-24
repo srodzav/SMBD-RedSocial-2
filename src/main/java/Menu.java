@@ -73,6 +73,11 @@ public class Menu extends javax.swing.JFrame {
         });
 
         jButton6.setText("Recurso");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Post");
 
@@ -200,8 +205,14 @@ public class Menu extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         JFrame grupo=new PersonaGrupo();
         grupo.setVisible(true);
-        grupo.setSize(new Dimension(427, 484));
+        grupo.setSize(new Dimension(600,500));
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        JFrame grupo=new Recurso();
+        grupo.setVisible(true);
+        grupo.setSize(new Dimension(600,500));
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
