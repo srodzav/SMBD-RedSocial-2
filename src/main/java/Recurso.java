@@ -54,6 +54,7 @@ public class Recurso extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Recurso");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
@@ -249,8 +250,8 @@ public class Recurso extends javax.swing.JFrame {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             
-            String cadena = cadena = "INSERT INTO Recurso (ruta, tipo, tamano) " +
-                "VALUES ('" + ruta.getText() + "','" + tipo.getText() + "','" + tam.getText() + "')";
+            String cadena = cadena = "INSERT INTO Recurso (ruta, tipo) " +
+                "VALUES ('" + ruta.getText() + "','" + tipo.getText() + "')";
             
             stmt.executeUpdate(cadena);
            
@@ -316,7 +317,7 @@ public class Recurso extends javax.swing.JFrame {
 
             String cadena = 
                 "UPDATE Recurso SET " +
-                "ruta='" + ruta.getText() + "', tipo='" + tipo.getText() + "', tamano='" + tam.getText() + "' WHERE id_recurso = " +id;
+                "ruta='" + ruta.getText() + "', tipo='" + tipo.getText() + "' WHERE id_recurso = " +id;
         
             
             stmt.executeUpdate(cadena);
@@ -380,7 +381,6 @@ public class Recurso extends javax.swing.JFrame {
         modelo.addColumn("id_recurso");
         modelo.addColumn("ruta");
         modelo.addColumn("tipo");
-        modelo.addColumn("tamano");
         jTable1.setModel(modelo);
         try {
             Class.forName("org.postgresql.Driver");
@@ -396,7 +396,6 @@ public class Recurso extends javax.swing.JFrame {
                 datos[0] = rs.getString("id_recurso");
                 datos[1] = rs.getString("ruta");
                 datos[2] = rs.getString("tipo");
-                datos[3] = rs.getString("tamano");
                 modelo.addRow(datos);
             }
             stmt.close();
