@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Eduardo
  */
 public class Reaccion extends javax.swing.JFrame {
-
+    String id;
     /**
      * Creates new form Reaccion
      */
@@ -107,8 +107,18 @@ public class Reaccion extends javax.swing.JFrame {
         });
 
         jButton2.setText("Modificar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -147,6 +157,11 @@ public class Reaccion extends javax.swing.JFrame {
 
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -205,20 +220,22 @@ public class Reaccion extends javax.swing.JFrame {
             stmt = c.createStatement();
             
             String persona = personaCB.getSelectedItem().toString();
-            String comparte = postCB.getSelectedItem().toString();
+            String post = postCB.getSelectedItem().toString();
+            String tipo = tipoCB.getSelectedItem().toString();
             
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");  
             LocalDateTime now = LocalDateTime.now();
         
             
-            String cadena =  "INSERT INTO Comentario (id_post, id_persona, comentario, fecha_comentario) " +
-                    "VALUES ('" + comparte.split("-")[0] + "','" + persona.split("-")[0] + "','" + comentario.getText() + "','" + dtf.format(now)  + "')";
+            String cadena =  "INSERT INTO Reaccion (id_persona, id_persona_que_reacciona, tipo, fecha_reaccion) " +
+                    "VALUES ('" + persona.split("-")[0] + "', '" + post.split("-")[0] + "' ,'" + tipo + "','" + dtf.format(now) + "')";
             
             stmt.executeUpdate(cadena);
+            
            
             personaCB.setSelectedIndex(0);
             postCB.setSelectedIndex(0);
-            comentario.setText("");
+            tipoCB.setSelectedIndex(0);
             
             stmt.close();
             c.commit();
@@ -230,6 +247,95 @@ public class Reaccion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        
+        
+        for (int i = 0; i < personaCB.getItemCount(); i++) {
+            if (personaCB.getItemAt(i).toString().contains(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString())) {
+                personaCB.setSelectedIndex(i);
+            }
+        }
+        String post = jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString().split("-")[0];
+        for (int i = 0; i < postCB.getItemCount(); i++) {
+            if (postCB.getItemAt(i).toString().split("-")[0].compareTo(post) == 0) {
+                postCB.setSelectedIndex(i);
+            }
+        }
+        
+        for (int i = 0; i < tipoCB.getItemCount(); i++) {
+            if (tipoCB.getItemAt(i).toString().contains(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString())) {
+                tipoCB.setSelectedIndex(i);
+            }
+        }
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            
+            stmt.executeUpdate("DELETE FROM Reaccion WHERE id_reaccion = " + id);
+           
+            personaCB.setSelectedIndex(0);
+            postCB.setSelectedIndex(0);
+            tipoCB.setSelectedIndex(0);
+            id = null;
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Connection c = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            
+            String persona = personaCB.getSelectedItem().toString();
+            String post = postCB.getSelectedItem().toString();
+            String tipo = tipoCB.getSelectedItem().toString();
+            
+            String cadena = 
+                "UPDATE Reaccion SET " +
+                " tipo='" + tipo + "' WHERE id_reaccion = '" +
+                id + "';";
+            stmt.executeUpdate(cadena);
+            
+            personaCB.setSelectedIndex(0);
+            postCB.setSelectedIndex(0);
+            tipoCB.setSelectedIndex(0);
+            id = null;
+           
+            stmt.close();
+            c.commit();
+            c.close();
+            muestraDB();
+
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -321,7 +427,7 @@ public class Reaccion extends javax.swing.JFrame {
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            String cadena = "SELECT id_reaccion, p.nombre , CONCAT(Pe.nombre,' - ',po.descripcion) as post, R.tipo FROM Reaccion R " +
+            String cadena = "SELECT id_reaccion, p.id_persona as id_persona, p.nombre , CONCAT(Pe.nombre,' - ',po.descripcion) as post, po.id_post as id_post , R.tipo FROM Reaccion R " +
                 "Inner join Persona p on p.id_persona = R.id_persona Inner join Post Po on R.id_persona_que_reacciona = Po.id_post " +
                 "Inner join Persona pe on pe.id_persona = Po.id_persona";
             
@@ -329,8 +435,8 @@ public class Reaccion extends javax.swing.JFrame {
             while(rs.next())
             {
                 datos[0] = rs.getString("id_reaccion");
-                datos[1] = rs.getString("nombre");
-                datos[2] = rs.getString("post");
+                datos[1] = rs.getString("id_persona") + "-" + rs.getString("nombre");
+                datos[2] = rs.getString("id_post") + "-" + rs.getString("post");
                 datos[3] = rs.getString("tipo");
                 modelo.addRow(datos);
             }
