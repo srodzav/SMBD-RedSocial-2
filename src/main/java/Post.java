@@ -1,4 +1,4 @@
-
+// Librerias
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,13 +9,15 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Post extends javax.swing.JFrame {
-
+    // Variables necesarias para modificar
     String id=null;
     public Post() {
+        // Inicializa los componentes y muestra la base de datos
         initComponents();
         llenaComboBox();
         muestraDB();
     }
+    // Codigo generado automáticamente 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -216,45 +218,50 @@ public class Post extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
+            // Guarda los datos a insertar
             String persona = jComboBox1.getSelectedItem().toString();
             String tipo = jComboBox2.getSelectedItem().toString();
             String descripcion = jTextPane1.getText();
             String reacciones = jTextPane2.getText();
+            // Genera el dia y la hora
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
             LocalDateTime now = LocalDateTime.now();
-        
+            // Ejecuta el query
             String cadena =  "INSERT INTO Post (id_persona, tipo, descripcion, num_reacciones, fecha_post) VALUES ('" + persona.split("-")[0] + "','" + tipo + "','"+descripcion+"','"+reacciones+"','"+dtf.format(now)+"');";
-            
             stmt.executeUpdate(cadena);
-           
+            // Limpia los formularios
             jComboBox1.setSelectedIndex(0);
             jComboBox2.setSelectedIndex(0);
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
             muestraDB();
         }
         catch(Exception e)
-        {
+        {// En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+// Evento para cargar datos a los formularios
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // Se guarda la llave primaria
         id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
         jComboBox1.setSelectedItem(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
         jComboBox2.setSelectedItem(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
         jTextPane1.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
         jTextPane2.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
-        
+        // Carga los datos de la tabla a los formularios
         for (int i = 0; i < jComboBox1.getItemCount(); i++) {
             if (jComboBox1.getItemAt(i).toString().contains(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())) {
                 jComboBox1.setSelectedIndex(i);
@@ -268,64 +275,63 @@ public class Post extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String stringNumber = jComboBox1.getSelectedItem().toString();
         boolean isNumberPersona = Boolean.parseBoolean(stringNumber);
-        
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
-        
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Guarda las variables
             String persona = jComboBox1.getSelectedItem().toString();
             String grupo = jComboBox2.getSelectedItem().toString();
-
+            // Genera el query para modificar los datos
             String cadena = 
                 "UPDATE Post SET id_persona=" + (isNumberPersona == true ? jComboBox1.getSelectedItem().toString().split("-")[0] : jComboBox1.getSelectedItem().toString().split("-")[0]) + ", tipo='" + jComboBox2.getSelectedItem().toString() + "', descripcion='" + jTextPane1.getText() + "', num_reacciones=" + jTextPane2.getText() + " WHERE id_post = " + id.split("-")[0];
-      
-            
             stmt.executeUpdate(cadena);
-           
+            // Limpia los formularios
             jComboBox1.setSelectedIndex(0);
             jComboBox2.setSelectedIndex(0);
             id = null;
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
             muestraDB();
         }
         catch(Exception e)
-        {
+        {// En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
-        
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
             stmt.executeUpdate("DELETE FROM Post WHERE id_persona = " + id.split("-")[0]);
-           
+            // Limpia los formularios
             jComboBox1.setSelectedIndex(0);
             jComboBox2.setSelectedIndex(0);
             jTextPane1.setText("");
             jTextPane2.setText("");
             id = null;
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
             muestraDB();
         }
         catch(Exception e)
-        {
+        {// En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -340,6 +346,7 @@ public class Post extends javax.swing.JFrame {
     
     private void muestraDB() 
     {
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         String datos[] = new String[7];
@@ -352,13 +359,15 @@ public class Post extends javax.swing.JFrame {
         modelo.addColumn("fecha_post");
         jTable1.setModel(modelo);
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Se ejecuta el query para mostrar los datos
             String cadena =  " SELECT po.id_post, CONCAT(p.id_persona, '-' ,p.nombre_red_social) as persona, po.tipo, po.descripcion, po.num_reacciones AS numero_reacciones, po.fecha_post FROM Post AS po INNER JOIN Persona AS p ON po.id_persona = p.id_persona; ";      
             ResultSet rs = stmt.executeQuery(cadena);
+            // Carga los datos a la tabla
             while(rs.next())
             {
                 datos[0] = rs.getString("id_post");
@@ -369,39 +378,43 @@ public class Post extends javax.swing.JFrame {
                 datos[5] = rs.getString("fecha_post");
                 modelo.addRow(datos);
             }
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
         }
         catch(Exception e)
-        {
+        {// En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }
 
      private void llenaComboBox()
     {
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT id_persona,nombre,nombre_red_social FROM Persona");
-            
+            // Limpia los formularios
             jComboBox1.addItem("");
-            
+            // Carga a los combobox la informacion
             while(rs.next())
             {
                 jComboBox1.addItem(rs.getString("id_persona") + "-" + rs.getString("nombre_red_social"));
             }
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
         }
         catch(Exception e)
-        {
+        {// En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }

@@ -1,4 +1,4 @@
-
+// Librerias
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,12 +9,15 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Compartido extends javax.swing.JFrame {
+    // Variables necesarias para modificar
     String id = null;
     public Compartido() {
+        // Inicializa los componentes y muestra la base de datos
         initComponents();
         llenaComboBox();
         muestraDB();
     }
+    // Codigo generado automáticamente 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -183,100 +186,108 @@ public class Compartido extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Boton Agregar
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Guarda los datos a insertar
             String persona = jComboBox1.getSelectedItem().toString();
             String post = jComboBox2.getSelectedItem().toString();
+            // Genera el dia y la hora
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");  
             LocalDateTime now = LocalDateTime.now();
-            
+            // Ejecuta el query
             String cadena =  "INSERT INTO Compartir (id_post, id_persona, fecha_compartido) " +
                     "VALUES ('" + post.split("-")[0] + "','" + persona.split("-")[0] + "','" + dtf.format(now)  + "')";
             
             stmt.executeUpdate(cadena);
-           
+           // Limpia los formularios
             jComboBox1.setSelectedIndex(0);
             jComboBox2.setSelectedIndex(0);
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
             muestraDB();
         }
         catch(Exception e)
-        {
+        {// En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // Boton Modificar
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
-        
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Guarda las variables
             String persona = jComboBox1.getSelectedItem().toString();
             String post = jComboBox2.getSelectedItem().toString();
-            
+            // Genera el query para modificar los datos
             String cadena =
                 "UPDATE Compartir SET " +
                 "id_post='" + post.split("-")[0] + "', id_persona='"+persona.split("-")[0]+"' WHERE id_compartir = '" + id + "';";
             stmt.executeUpdate(cadena);
-            
+            // Limpia los formularios
             jComboBox1.setSelectedIndex(0);
             jComboBox2.setSelectedIndex(0);
             id = null;
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
             muestraDB();
-
         }
         catch(Exception e)
-        {
+        {// En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // Boton Eliminar
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
-        
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Genera el query para eliminar los datos
             stmt.executeUpdate("DELETE FROM Compartir WHERE id_compartir = " + id);
-           
+           // Limpia los formularios
             jComboBox1.setSelectedIndex(0);
             jComboBox2.setSelectedIndex(0);
             id = null;
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
             muestraDB();
         }
         catch(Exception e)
-        {
+        {// En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    // Evento para cargar datos a los formularios
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         String cb1 = null; String jt1 = null; String cb2 = null; String post = null;
         id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
@@ -305,7 +316,9 @@ public class Compartido extends javax.swing.JFrame {
         });
     }
     
+    // Mostrar la Base de Datos
     public void muestraDB() {
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         String datos[] = new String[7];
@@ -316,6 +329,7 @@ public class Compartido extends javax.swing.JFrame {
         modelo.addColumn("fecha_compartido");
         jTable1.setModel(modelo);
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
@@ -332,30 +346,35 @@ public class Compartido extends javax.swing.JFrame {
                 datos[3] = rs.getString("fecha_compartido");
                 modelo.addRow(datos);
             }
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
         }
         catch(Exception e)
-        {
+        {// En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }
     
+    // Llenado de información para combobox
     public void llenaComboBox(){
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
+            // Genera el query
             ResultSet rs = stmt.executeQuery("SELECT id_persona,nombre FROM Persona");
             ResultSet rsp = stmt.executeQuery("SELECT po.id_post as id_post, pe.nombre as nombre, po.tipo as tipo, po.fecha_post as fecha FROM Post po INNER JOIN Persona pe ON Po.id_persona = Pe.id_persona");
-            
+            // Limpia los formularios
             jComboBox1.addItem("");
             jComboBox2.addItem("");
-            
+            // Carga a los combobox la informacion
             while(rs.next())
             {
                 jComboBox1.addItem(rs.getString("id_persona") + "-" + rs.getString("nombre"));
@@ -364,14 +383,13 @@ public class Compartido extends javax.swing.JFrame {
             {
                 jComboBox2.addItem(rsp.getString("id_post") + "-" + rsp.getString("nombre") + "-" + rsp.getString("tipo")+ "-" + rsp.getString("fecha"));
             }
-            
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
         }
         catch(Exception e)
-        {
+        {// En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }

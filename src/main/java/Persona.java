@@ -1,4 +1,4 @@
-
+// Librerias
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,13 +12,15 @@ import java.time.LocalDateTime;
 import javax.swing.JFileChooser;
 
 public class Persona extends javax.swing.JFrame {
-
+    // Variables necesarias para modificar
     String _filename = null;
     String id = null;
     public Persona() {
+        // Inicializa los componentes y muestra la base de datos
         initComponents();
         muestraDB();
     }
+    // Codigo generado automaticamente
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -223,12 +225,13 @@ public class Persona extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    // Boton Agregar
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
-        
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
@@ -236,18 +239,18 @@ public class Persona extends javax.swing.JFrame {
             String nombre = txtNombre.getText();
             String username = txtUsername.getText();
             int rol = rolCb.getSelectedIndex();
-            
+            // Genera el dia y la hora
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
             LocalDateTime now = LocalDateTime.now();
-            
+            // Ejecuta el query
             stmt.executeUpdate("INSERT INTO persona (nombre,nombre_red_social,imagen_perfil,rol,numero_amigos,fecha_registro) "
                     + " VALUES ('" + nombre + "','" + username + "','" + _filename + "'," + (rol-1) + ",0,'" + dtf.format(now) + "')");
-           
+            // Limpia los formularios
             txtNombre.setText("");
             txtUsername.setText("");
             rolCb.setSelectedIndex(0);
             _filename = null;
-            
+            // Cierra la conexion
             stmt.close();
             c.commit();
             c.close();
@@ -255,6 +258,7 @@ public class Persona extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -262,44 +266,48 @@ public class Persona extends javax.swing.JFrame {
     private void rolCbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rolCbActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rolCbActionPerformed
-
+    // Boton para abrir un recurso
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser chooser=new JFileChooser();
         chooser.showSaveDialog(null);
-
+        // Se abre una ventana de seleccion de recurso y se guarda el nombre
         String path=chooser.getSelectedFile().getAbsolutePath();
         String filename=chooser.getSelectedFile().getName();
         _filename = filename;
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // Evento para cargar datos a los formularios
     private void jTdbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTdbMouseClicked
+        // Se guarda la llave primaria
         id = jTdb.getValueAt(jTdb.getSelectedRow(), 0).toString();
+        // Carga los datos de la tabla a los formularios
         txtNombre.setText(jTdb.getValueAt(jTdb.getSelectedRow(), 1).toString());
         txtUsername.setText(jTdb.getValueAt(jTdb.getSelectedRow(), 2).toString());
-        
         int rol = (jTdb.getValueAt(jTdb.getSelectedRow(), 4).toString().compareTo("0") == 0) ? 0 : 1;
-        
         rolCb.setSelectedIndex( rol + 1 );
         _filename = jTdb.getValueAt(jTdb.getSelectedRow(), 3).toString();
     }//GEN-LAST:event_jTdbMouseClicked
 
+    // Boton Eliminar
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Genera el query para eliminar los datos
             stmt.executeUpdate("DELETE FROM persona WHERE id_persona = " + id);
-           
+           // Limpia los formularios
             txtNombre.setText("");
             txtUsername.setText("");
             rolCb.setSelectedIndex(0);
             _filename = null;
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
@@ -307,33 +315,37 @@ public class Persona extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    // Boton Modificar
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Guarda las variables
             String nombre = txtNombre.getText();
             String username = txtUsername.getText();
             int rol = rolCb.getSelectedIndex();
-            
+            // Genera el query para modificar los datos
             stmt.executeUpdate("UPDATE persona "
                     + " SET nombre = '"+nombre+"', nombre_red_social = '"+username+"', imagen_perfil = '"+_filename+"', rol = "+(rol-1)+""
                     + "WHERE id_persona = " + id);
-           
+            // Limpia los formularios
             txtNombre.setText("");
             txtUsername.setText("");
             rolCb.setSelectedIndex(0);
             _filename = null;
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
@@ -341,6 +353,7 @@ public class Persona extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -353,11 +366,14 @@ public class Persona extends javax.swing.JFrame {
         });
     }
     
+    // Mostrar la Base de Datos
     public void muestraDB() {
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         String datos[] = new String[7];
         DefaultTableModel modelo = new DefaultTableModel();
+        // Genera las columnas
         modelo.addColumn("id_persona");
         modelo.addColumn("nombre");
         modelo.addColumn("nombre_red_social");
@@ -367,13 +383,16 @@ public class Persona extends javax.swing.JFrame {
         modelo.addColumn("fecha_registro");
         jTdb.setModel(modelo);
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
+            // Se ejecuta el query para mostrar los datos
             ResultSet rs = stmt.executeQuery("SELECT * FROM persona");
             while(rs.next())
             {
+                // Carga los datos a la tabla
                 datos[0] = rs.getString("id_persona");
                 datos[1] = rs.getString("nombre");
                 datos[2] = rs.getString("nombre_red_social");
@@ -383,12 +402,14 @@ public class Persona extends javax.swing.JFrame {
                 datos[6] = rs.getString("fecha_registro");
                 modelo.addRow(datos);
             }
+            // Cierra la conexion
             stmt.close();
             c.commit();
             c.close();
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }

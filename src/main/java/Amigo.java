@@ -1,4 +1,4 @@
-
+// Librerias
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,24 +8,15 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
-/**
- *
- * @author Eduardo
- */
 public class Amigo extends javax.swing.JFrame {
-
+    // Variables necesarias para modificar
     String id;
-
     public Amigo() {
+        // Inicializa los componentes y muestra la base de datos
         initComponents();
         muestraDB();
     }
-    
+    // Codigo generado automáticamente 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -215,76 +206,84 @@ public class Amigo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    // Cargar los datos a los combobox
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
+            // Genera el query para eliminar los datos
             ResultSet rs = stmt.executeQuery("SELECT id_persona,nombre,nombre_red_social FROM Persona");
-            
+            // Limpia los formularios
             amigoCB.addItem("");
             amigoAgregarCB.addItem("");
-            
             while(rs.next())
             {
+                // Carga a los combobox la informacion
                 amigoCB.addItem(rs.getString("id_persona") + " - " + rs.getString("nombre_red_social"));
                 amigoAgregarCB.addItem(rs.getString("id_persona") + " - " + rs.getString("nombre_red_social"));
             }
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_formComponentShown
-
+    
+    // Boton Agregar
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
+            // Guarda los datos a insertar
             String amgio = amigoCB.getSelectedItem().toString();
             String amigoAgregar = amigoAgregarCB.getSelectedItem().toString();
             boolean amistad = jCheckBox1.isSelected();
-            
+            // Genera el dia y la hora
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
             LocalDateTime now = LocalDateTime.now();
-            
+            // Evalua si una persona ya tiene de amistad a si mismo
             if(amgio.split("-")[0].compareTo(amigoAgregar.split("-")[0])==0){
                 JOptionPane.showMessageDialog(null, "No puedes poner en amistad a la misma persona ");
                 amigoCB.setSelectedIndex(0);
                 amigoAgregarCB.setSelectedIndex(0);
                 jCheckBox1.setSelected(false);
-
+                // Cierra la conexión
                 stmt.close();
                 c.commit();
                 c.close();
                 muestraDB();
                 return;
             }
-            
+            // Ejecuta el query
             String cadena = "INSERT INTO Amigo (id_persona, id_persona_amigo, solicitud_amistad, fecha_inicio_amistad) " +
                     "VALUES (" + amgio.split("-")[0] + "," + amigoAgregar.split("-")[0] + ",'"+ (amistad ? 1 : 0) + "','" + dtf.format(now) + "') "
                             + " WHERE not exists"
                             + " (select * from Amigo where id_persona= " + amgio.split("-")[0] + " AND id_persona_amigo = " + amigoAgregar.split("-")[0] + " "
-                                    + "OR id_persona= " + amigoAgregar.split("-")[0] + " AND id_persona_amigo = " + amgio.split("-")[0] + " ) ";
-            
-            
+                                    + "OR id_persona= " + amigoAgregar.split("-")[0] + " AND id_persona_amigo = " + amgio.split("-")[0] + " ) ";          
             stmt.executeUpdate(cadena);
-           
+           // Limpia los formularios
             amigoCB.setSelectedIndex(0);
             amigoAgregarCB.setSelectedIndex(0);
             jCheckBox1.setSelected(false);
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
@@ -292,15 +291,18 @@ public class Amigo extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // Evento para cargar datos a los formularios
     private void jTdbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTdbMouseClicked
+        // Se guarda la llave primaria
         id = jTdb.getValueAt(jTdb.getSelectedRow(), 0).toString();
         boolean amistad = jTdb.getValueAt(jTdb.getSelectedRow(), 3).toString().compareTo("1") == 0 ? true : false;
         jCheckBox1.setSelected(amistad);
-        
+        // Carga los datos de la tabla a los formularios
         for (int i = 0; i < amigoCB.getItemCount(); i++) {
             if (amigoCB.getItemAt(i).toString().contains(jTdb.getValueAt(jTdb.getSelectedRow(), 1).toString())) {
                 amigoCB.setSelectedIndex(i);
@@ -311,23 +313,25 @@ public class Amigo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTdbMouseClicked
 
+    // Boton Eliminar
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
-        
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Genera el query para eliminar los datos
             stmt.executeUpdate("DELETE FROM Amigo WHERE id_amigo = " + id);
-           
+            // Limpia los formularios
             amigoCB.setSelectedIndex(0);
             amigoAgregarCB.setSelectedIndex(0);
             jCheckBox1.setSelected(false);
             id = null;
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
@@ -335,50 +339,50 @@ public class Amigo extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    // Boton Modificar
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
-        
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Guarda las variables
             String amgio = amigoCB.getSelectedItem().toString();
             String amigoAgregar = amigoAgregarCB.getSelectedItem().toString();
             boolean amistad = jCheckBox1.isSelected();
-            
+            // Valida que una persona no tenga como amistad a si mismo
             if(amgio.split("-")[0].compareTo(amigoAgregar.split("-")[0])==0){
                 JOptionPane.showMessageDialog(null, "No puedes poner en amistad a la misma persona ");
                 amigoCB.setSelectedIndex(0);
                 amigoAgregarCB.setSelectedIndex(0);
                 jCheckBox1.setSelected(false);
-
+                // Cierra la conexión
                 stmt.close();
                 c.commit();
                 c.close();
                 muestraDB();
                 return;
             }
-
+            // Genera el query para modificar los datos
             String cadena = "UPDATE Amigo SET id_persona=" + amgio.split("-")[0] + 
                     ", id_persona_amigo=" + amigoAgregar.split("-")[0] + 
                     ", solicitud_amistad='" + (amistad == false ? 0 : 1) +"' WHERE id_amigo = " + id;
-        
-            
             stmt.executeUpdate(cadena);
-           
+           // Limpia los formularios
             amigoCB.setSelectedIndex(0);
             amigoAgregarCB.setSelectedIndex(0);
             jCheckBox1.setSelected(false);
             id = null;
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
@@ -386,15 +390,19 @@ public class Amigo extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    
+// Mostrar la Base de Datos
     public void muestraDB() {
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         String datos[] = new String[7];
         DefaultTableModel modelo = new DefaultTableModel();
+        // Genera las columnas
         modelo.addColumn("id_amigo");
         modelo.addColumn("persona");
         modelo.addColumn("amigo");
@@ -402,11 +410,12 @@ public class Amigo extends javax.swing.JFrame {
         modelo.addColumn("fecha_inicio_amistad");
         jTdb.setModel(modelo);
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Se ejecuta el query para mostrar los datos
             String cadena = "SELECT A.id_amigo, CONCAT(P.id_persona, ' - ' ,P.nombre_red_social) as persona , CONCAT(Pe.id_persona, ' - ' ,Pe.nombre_red_social) as amigo,A.solicitud_amistad, A.fecha_inicio_amistad "
                     + "FROM Amigo A "
                     + "INNER JOIN Persona AS P "
@@ -416,6 +425,7 @@ public class Amigo extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery(cadena);
             while(rs.next())
             {
+                // Carga los datos a la tabla
                 datos[0] = rs.getString("id_amigo");
                 datos[1] = rs.getString("persona");
                 datos[2] = rs.getString("amigo");
@@ -423,43 +433,19 @@ public class Amigo extends javax.swing.JFrame {
                 datos[4] = rs.getString("fecha_inicio_amistad");
                 modelo.addRow(datos);
             }
+            // Cierra la conexion
             stmt.close();
             c.commit();
             c.close();
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Amigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Amigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Amigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Amigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Amigo().setVisible(true);

@@ -1,3 +1,4 @@
+// Librerias
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,16 +8,17 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class PersonaGrupo extends javax.swing.JFrame {
-
+    // Variables necesarias para modificar
     String id=null;
     public PersonaGrupo() {
+        // Inicializa los componentes y muestra la base de datos
         initComponents();
         llenaComboBox();
         llenaComboBox2();
         muestraDB();
     }
+    // Codigo generado automáticamente 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -184,31 +186,32 @@ public class PersonaGrupo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Boton Agregar
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
+            // Guarda los datos a insertar
             String persona = jComboBox1.getSelectedItem().toString();
             String grupo = jComboBox2.getSelectedItem().toString();
-            
+            // Genera el dia y la hora
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
             LocalDateTime now = LocalDateTime.now();
-        
-            
+            // Ejecuta el query
             String cadena = "INSERT INTO PersonaGrupo (id_persona, id_grupo) " +
                     "VALUES (" + persona.split("-")[0] + " , " + grupo.split("-")[0] + ")";
             
-            JOptionPane.showMessageDialog(null, "Error al mostrar: "+cadena);
-            
             stmt.executeUpdate(cadena);
-           
+           // Limpia los formularios
             jComboBox1.setSelectedIndex(0);
             jComboBox2.setSelectedIndex(0);
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
@@ -216,15 +219,18 @@ public class PersonaGrupo extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
+    // Evento para cargar datos a los formularios
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // Se guarda la llave primaria
         id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
         jComboBox1.setSelectedItem(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
         jComboBox2.setSelectedItem(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
-        
+        // Carga los datos de la tabla a los formularios
         for (int i = 0; i < jComboBox1.getItemCount(); i++) {
             if (jComboBox1.getItemAt(i).toString().contains(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString())) {
                 jComboBox1.setSelectedIndex(i);
@@ -235,29 +241,29 @@ public class PersonaGrupo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    // Boton Modificar
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
-        
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Guarda las variables
             String persona = jComboBox1.getSelectedItem().toString();
             String grupo = jComboBox2.getSelectedItem().toString();
-
+            // Genera el query para modificar los datos
             String cadena = 
                 "UPDATE PersonaGrupo SET id_persona=" + persona.split("-")[0] + ", id_grupo=" + grupo.split("-")[0] + " WHERE id_persona = " + id.split("-")[0];
-      
-            
             stmt.executeUpdate(cadena);
-           
+            // Limpia los formularios
             jComboBox1.setSelectedIndex(0);
             jComboBox2.setSelectedIndex(0);
             id = null;
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
@@ -265,26 +271,29 @@ public class PersonaGrupo extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    
+    // Boton Eliminar
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
-        
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Genera el query para eliminar los datos
             stmt.executeUpdate("DELETE FROM PersonaGrupo WHERE id_persona = " + id.split("-")[0]);
-           
+           // Limpia los formularios
             jComboBox1.setSelectedIndex(0);
             jComboBox2.setSelectedIndex(0);
             id = null;
-            
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
@@ -292,6 +301,7 @@ public class PersonaGrupo extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -304,88 +314,105 @@ public class PersonaGrupo extends javax.swing.JFrame {
         });
     }
     
+    // Mostrar la Base de Datos
     private void muestraDB() {
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         String datos[] = new String[7];
         DefaultTableModel modelo = new DefaultTableModel();
+        // Genera las columnas
         modelo.addColumn("persona");
         modelo.addColumn("grupo");
         jTable1.setModel(modelo);
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            
+            // Se ejecuta el query para mostrar los datos
             String cadena =  "SELECT CONCAT(P.id_persona, '-' ,P.nombre_red_social) as Persona,CONCAT(G.id_grupo, '-' ,G.nombre) as Grupo FROM PersonaGrupo A INNER JOIN Persona AS P ON A.id_persona = P.id_persona INNER JOIN Grupo AS G ON A.id_grupo = G.id_grupo;";      
             ResultSet rs = stmt.executeQuery(cadena);
             while(rs.next())
             {
+                // Carga los datos a la tabla
                 datos[0] = rs.getString("persona");
                 datos[1] = rs.getString("grupo");
                 modelo.addRow(datos);
             }
+            // Cierra la conexion
             stmt.close();
             c.commit();
             c.close();
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }
 
     private void llenaComboBox()
     {
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
+            // Genera el query para eliminar los datos
             ResultSet rs = stmt.executeQuery("SELECT id_persona,nombre,nombre_red_social FROM Persona");
-            
+            // Limpia los formularios
             jComboBox1.addItem("");
-            
+            // Carga a los combobox la informacion
             while(rs.next())
             {
                 jComboBox1.addItem(rs.getString("id_persona") + "-" + rs.getString("nombre_red_social"));
             }
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }
     
     private void llenaComboBox2()
     {
+        // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         try {
+            // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
+            // Genera el query para eliminar los datos
             ResultSet rs = stmt.executeQuery("SELECT id_grupo,nombre FROM Grupo");
-            
+            // Limpia los formularios
             jComboBox2.addItem("");
-            
+            // Carga a los combobox la informacion
             while(rs.next())
             {
                 jComboBox2.addItem(rs.getString("id_grupo") + "-" + rs.getString("nombre"));
             }
+            // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
         }
         catch(Exception e)
         {
+            // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
     }
