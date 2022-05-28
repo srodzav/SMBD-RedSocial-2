@@ -194,29 +194,34 @@ public class Menu extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFrame newFrame=new Persona(_usuario);
         newFrame.setVisible(true);
+        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         newFrame.setSize(new Dimension(600,500));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         JFrame amigo=new Amigo(_usuario);
         amigo.setVisible(true);
+        amigo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         amigo.setSize(new Dimension(600,500));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         JFrame grupo=new Grupo(_usuario);
         grupo.setVisible(true);
+        grupo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         grupo.setSize(new Dimension(600,500));
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         JFrame grupo=new Notificacion(_usuario);
         grupo.setVisible(true);
+        grupo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         grupo.setSize(new Dimension(600,500));    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         JFrame grupo=new PersonaGrupo(_usuario);
         grupo.setVisible(true);
+        grupo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         grupo.setSize(new Dimension(600,500));
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -224,36 +229,42 @@ public class Menu extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         JFrame grupo=new Recurso(_usuario);
         grupo.setVisible(true);
+        grupo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         grupo.setSize(new Dimension(600,500));
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         JFrame grupo=new Post(_usuario);
         grupo.setVisible(true);
+        grupo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         grupo.setSize(new Dimension(600,500)); 
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         JFrame grupo=new Comentario(_usuario);
         grupo.setVisible(true);
+        grupo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         grupo.setSize(new Dimension(600,500)); 
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         JFrame grupo=new Contenido(_usuario);
         grupo.setVisible(true);
+        grupo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         grupo.setSize(new Dimension(600,500)); 
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         JFrame grupo=new Reaccion(_usuario);
         grupo.setVisible(true);
+        grupo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         grupo.setSize(new Dimension(600,500)); 
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         JFrame grupo=new Compartido(_usuario);
         grupo.setVisible(true);
+        grupo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         grupo.setSize(new Dimension(600,500)); 
     }//GEN-LAST:event_jButton10ActionPerformed
 
