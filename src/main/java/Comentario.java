@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 public class Comentario extends javax.swing.JFrame {
     // Variables necesarias para modificar
     String id;
-    public Comentario() {
+    public Comentario(String usuario) {
         // Inicializa los componentes y muestra la base de datos
         initComponents();
         llenaComboBox();
@@ -322,7 +322,7 @@ public class Comentario extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Comentario().setVisible(true);
+                new Comentario("Administrador").setVisible(true);
             }
         });
     }

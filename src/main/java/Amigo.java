@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 public class Amigo extends javax.swing.JFrame {
     // Variables necesarias para modificar
     String id;
-    public Amigo() {
+    public Amigo(String usuario) {
         // Inicializa los componentes y muestra la base de datos
         initComponents();
         muestraDB();
@@ -448,7 +448,7 @@ public class Amigo extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Amigo().setVisible(true);
+                new Amigo("Administrador").setVisible(true);
             }
         });
     }

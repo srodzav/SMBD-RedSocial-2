@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 public class Recurso extends javax.swing.JFrame {
     // Variables necesarias para modificar
     String id;
-    public Recurso() {
+    public Recurso(String usuario) {
         // Inicializa los componentes y muestra la base de datos
         initComponents();
         muestraDB();
@@ -324,7 +324,7 @@ public class Recurso extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Recurso().setVisible(true);
+                new Recurso("Administrador").setVisible(true);
             }
         });
     }

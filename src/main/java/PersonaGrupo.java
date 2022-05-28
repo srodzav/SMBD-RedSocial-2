@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 public class PersonaGrupo extends javax.swing.JFrame {
     // Variables necesarias para modificar
     String id=null;
-    public PersonaGrupo() {
+    public PersonaGrupo(String usuario) {
         // Inicializa los componentes y muestra la base de datos
         initComponents();
         llenaComboBox();
@@ -309,7 +309,7 @@ public class PersonaGrupo extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PersonaGrupo().setVisible(true);
+                new PersonaGrupo("Administrador").setVisible(true);
             }
         });
     }

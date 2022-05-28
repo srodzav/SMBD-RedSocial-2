@@ -22,7 +22,7 @@ public class Contenido extends javax.swing.JFrame {
     /**
      * Creates new form Contenido
      */
-    public Contenido() {
+    public Contenido(String usuario) {
         initComponents();
         llenaComboBox();
         muestraDB();
@@ -380,7 +380,7 @@ public class Contenido extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Contenido().setVisible(true);
+                new Contenido("Administrador").setVisible(true);
             }
         });
     }

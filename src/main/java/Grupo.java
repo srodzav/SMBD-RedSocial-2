@@ -16,7 +16,7 @@ public class Grupo extends javax.swing.JFrame {
     String nombre = null;
     String descripcion = null;
     
-    public Grupo() {
+    public Grupo(String usuario) {
         // Inicializa los componentes y muestra la base de datos
         initComponents();
         muestraDB();
@@ -393,7 +393,7 @@ public class Grupo extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Grupo().setVisible(true);
+                new Grupo("Administrador").setVisible(true);
             }
         });
     }

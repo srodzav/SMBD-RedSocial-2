@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 public class Reaccion extends javax.swing.JFrame {
     // Variables necesarias para modificar
     String id;
-    public Reaccion() {
+    public Reaccion(String usuario) {
         // Inicializa los componentes y muestra la base de datos
         initComponents();
         llenaComboBox();
@@ -353,7 +353,7 @@ public class Reaccion extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Reaccion().setVisible(true);
+                new Reaccion("Administrador").setVisible(true);
             }
         });
     }

@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 public class Notificacion extends javax.swing.JFrame {
     // Variables necesarias para modificar
     String id=null;
-    public Notificacion() {
+    public Notificacion(String usuario) {
         // Inicializa los componentes y muestra la base de datos
         initComponents();
         llenaComboBox();
@@ -378,7 +378,7 @@ public class Notificacion extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Notificacion().setVisible(true);
+                new Notificacion("Administrador").setVisible(true);
             }
         });
     }
