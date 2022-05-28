@@ -14,7 +14,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class Menu extends javax.swing.JFrame {
 
-    public Menu() {
+    String _usuario;
+    String _contra;
+    public Menu(String usuario, String contra) {
+        this._usuario = usuario;
+        this._usuario = contra;
         initComponents();
     }
 
@@ -240,7 +244,7 @@ public class Menu extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu().setVisible(true);
+                new Menu("Administador","admin").setVisible(true);
             }
         });
     }
