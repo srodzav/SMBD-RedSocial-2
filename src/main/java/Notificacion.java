@@ -16,6 +16,21 @@ public class Notificacion extends javax.swing.JFrame {
         initComponents();
         llenaComboBox();
         muestraDB();
+        if (usuario.compareTo("Usuario") == 0) {
+            bloquearBotonesUsuario();
+        }else if(usuario.compareTo("Moderador") == 0){
+            bloquearBotonesModerador();
+        }
+    }
+
+    private void bloquearBotonesModerador(){
+       
+    }
+    
+    private void bloquearBotonesUsuario(){
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(false);
+        jButton3.setEnabled(false);
     }
     // Codigo generado automáticamente 
     @SuppressWarnings("unchecked")

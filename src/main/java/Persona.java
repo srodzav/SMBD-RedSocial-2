@@ -19,6 +19,22 @@ public class Persona extends javax.swing.JFrame {
         // Inicializa los componentes y muestra la base de datos
         initComponents();
         muestraDB();
+        if (usuario.compareTo("Usuario") == 0) {
+            bloquearBotonesUsuario();
+        }else if(usuario.compareTo("Moderador") == 0){
+            bloquearBotonesModerador();
+        }
+    }
+
+    private void bloquearBotonesModerador(){
+        jButton2.setEnabled(false);
+        jButton3.setEnabled(false);
+    }
+    
+    private void bloquearBotonesUsuario(){
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(false);
+        jButton3.setEnabled(false);
     }
     // Codigo generado automaticamente
     @SuppressWarnings("unchecked")

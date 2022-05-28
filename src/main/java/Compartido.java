@@ -16,6 +16,20 @@ public class Compartido extends javax.swing.JFrame {
         initComponents();
         llenaComboBox();
         muestraDB();
+        
+        if (usuario.compareTo("Usuario") == 0) {
+            bloquearBotonesUsuario();
+        }else if(usuario.compareTo("Moderador") == 0){
+            bloquearBotonesModerador();
+        }
+    }
+
+    private void bloquearBotonesModerador(){
+        jButton2.setEnabled(false);
+    }
+    
+    private void bloquearBotonesUsuario(){
+        jButton2.setEnabled(false);
     }
     // Codigo generado automáticamente 
     @SuppressWarnings("unchecked")

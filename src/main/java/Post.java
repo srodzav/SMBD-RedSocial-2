@@ -16,7 +16,20 @@ public class Post extends javax.swing.JFrame {
         initComponents();
         llenaComboBox();
         muestraDB();
+        if (usuario.compareTo("Usuario") == 0) {
+            bloquearBotonesUsuario();
+        }else if(usuario.compareTo("Moderador") == 0){
+            bloquearBotonesModerador();
+        }
     }
+
+    private void bloquearBotonesModerador(){
+    }
+    
+    private void bloquearBotonesUsuario(){
+        
+    }
+    
     // Codigo generado automáticamente 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

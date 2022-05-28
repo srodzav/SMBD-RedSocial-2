@@ -18,29 +18,23 @@ public class Menu extends javax.swing.JFrame {
     String _contra;
     public Menu(String usuario, String contra) {
         this._usuario = usuario;
-        this._usuario = contra;
+        this._contra = contra;
         initComponents();
         
         if (usuario.compareTo("Usuario") == 0) {
             bloquearBotonesUsuario();
         }else if(usuario.compareTo("Moderador") == 0){
             bloquearBotonesModerador();
-        }else{
-            bloquearBotonesAdministrador();
         }
     }
     
-    private void bloquearBotonesAdministrador(){
+    private void bloquearBotonesModerador(){
         
     }
     
-    private void bloquearBotonesModerador(){
-        jButton1.setEnabled(false);
-    }
-    
     private void bloquearBotonesUsuario(){
-        jButton1.setEnabled(false);
-        jButton5.setEnabled(false);
+        jButton1.setEnabled(false); // Persona
+        jButton5.setEnabled(false); //Notificacion
     }
 
     @SuppressWarnings("unchecked")

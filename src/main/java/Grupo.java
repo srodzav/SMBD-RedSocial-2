@@ -20,6 +20,19 @@ public class Grupo extends javax.swing.JFrame {
         // Inicializa los componentes y muestra la base de datos
         initComponents();
         muestraDB();
+        if (usuario.compareTo("Usuario") == 0) {
+            bloquearBotonesUsuario();
+        }else if(usuario.compareTo("Moderador") == 0){
+            bloquearBotonesModerador();
+        }
+    }
+
+    private void bloquearBotonesModerador(){
+       
+    }
+    
+    private void bloquearBotonesUsuario(){
+        
     }
     // Codigo generado automáticamente 
     @SuppressWarnings("unchecked")
