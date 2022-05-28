@@ -28,8 +28,8 @@ public class Contenido extends javax.swing.JFrame {
     }
     
     private void bloquearBotonesUsuario(){
-        jButton2.setEnabled(false);
         jButton3.setEnabled(false);
+        jButton1.setEnabled(false);
     }
     // Codigo generado automáticamente 
     @SuppressWarnings("unchecked")

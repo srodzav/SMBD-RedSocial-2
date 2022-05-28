@@ -27,7 +27,7 @@ public class Recurso extends javax.swing.JFrame {
     }
     
     private void bloquearBotonesUsuario(){
-        jButton2.setEnabled(false);
+        jButton3.setEnabled(false);
     }
     // Codigo generado automáticamente 
     @SuppressWarnings("unchecked")
