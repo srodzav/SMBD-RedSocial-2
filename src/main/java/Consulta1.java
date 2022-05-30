@@ -14,8 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.JXDatePicker;
 
 public class Consulta1 extends javax.swing.JFrame {
-    JXDatePicker datePicker = new JXDatePicker();
-    datePicker.setFormats("dd-MM-yyyy HH:mm:ss");
+    String f1 = null; String f2=null;
     public Consulta1() {
         initComponents();
     }
@@ -163,8 +162,34 @@ public class Consulta1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JOptionPane.showMessageDialog(null, jXDatePicker1.getDate().toString() + ", " + jXDatePicker2.getDate().toString());
+        String dia;
+        String mes;
+        String anio;
+        String fecha;
+        fecha = jXDatePicker1.getDate().toString();
+        String[] fechaa = fecha.split(" ");
+        dia = fechaa[2]; mes = fechaa[1]; anio = fechaa[5];
+        switch (mes){
+            case ("May"): mes = "05";
+                break;
+            case ("June"): mes = "06";
+                break;
+        }
+        f1 = dia+ "/" + mes+ "/" + anio;
+        fecha = jXDatePicker2.getDate().toString();
+        fechaa = fecha.split(" ");
+        dia = fechaa[2]; mes = fechaa[1]; anio = fechaa[5];
+        switch (mes){
+            case ("May"): mes = "05";
+                break;
+            case ("June"): mes = "06";
+                break;
+        }
+        f2 = dia+ "/" + mes+ "/" + anio;
+        JOptionPane.showMessageDialog(null, f1+ " | " +f2);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
