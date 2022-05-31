@@ -13,6 +13,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+<<<<<<< HEAD
+=======
+import org.jdesktop.swingx.JXDatePicker;
+>>>>>>> ac58beef6cfa351fc638424e2530f891251f9b61
 
 public class Consulta2 extends javax.swing.JFrame {
     String persona;
@@ -138,6 +142,7 @@ public class Consulta2 extends javax.swing.JFrame {
             stmt = c.createStatement();
             persona = jComboBox1.getSelectedItem().toString();
             // Ejecuta el query
+<<<<<<< HEAD
             
             String cadena = "(SELECT P.id_persona, P.nombre, P.nombre_red_social, P.imagen_perfil FROM Amigo as A " +
             "INNER JOIN Persona as P on A.id_persona_amigo = P.id_persona " +
@@ -149,6 +154,10 @@ public class Consulta2 extends javax.swing.JFrame {
             
             //stmt.executeUpdate(cadena);
             muestraDB();
+=======
+            String cadena = "";          
+            stmt.executeUpdate(cadena);
+>>>>>>> ac58beef6cfa351fc638424e2530f891251f9b61
             // Cierra la conexión
             stmt.close();
             c.commit();
@@ -166,6 +175,7 @@ public class Consulta2 extends javax.swing.JFrame {
         // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
+<<<<<<< HEAD
         persona = jComboBox1.getSelectedItem().toString();
         String datos[] = new String[7];
         DefaultTableModel modelo = new DefaultTableModel();
@@ -174,6 +184,12 @@ public class Consulta2 extends javax.swing.JFrame {
         modelo.addColumn("nombre");
         modelo.addColumn("nombre_red_social");
         modelo.addColumn("imagen_perfil");
+=======
+        String datos[] = new String[7];
+        DefaultTableModel modelo = new DefaultTableModel();
+        // Genera las columnas
+        modelo.addColumn("");
+>>>>>>> ac58beef6cfa351fc638424e2530f891251f9b61
         jTable1.setModel(modelo);
         try {
             // Conecta con la base de datos
@@ -182,6 +198,7 @@ public class Consulta2 extends javax.swing.JFrame {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             // Se ejecuta el query para mostrar los datos
+<<<<<<< HEAD
             String cadena = "(SELECT P.id_persona, P.nombre, P.nombre_red_social, P.imagen_perfil FROM Amigo as A " +
             "INNER JOIN Persona as P on A.id_persona_amigo = P.id_persona " +
             "WHERE A.id_persona = "+ persona.split("-")[0] +" ) " +
@@ -200,6 +217,15 @@ public class Consulta2 extends javax.swing.JFrame {
                 datos[3] = rs.getString("imagen_perfil");
                 modelo.addRow(datos);
                 
+=======
+            String cadena = "";            
+            ResultSet rs = stmt.executeQuery(cadena);
+            while(rs.next())
+            {
+                // Carga los datos a la tabla
+                datos[0] = rs.getString("");
+                modelo.addRow(datos);
+>>>>>>> ac58beef6cfa351fc638424e2530f891251f9b61
             }
             // Cierra la conexion
             stmt.close();
