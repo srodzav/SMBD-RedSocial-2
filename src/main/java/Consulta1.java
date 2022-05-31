@@ -172,7 +172,7 @@ public class Consulta1 extends javax.swing.JFrame {
             case ("June"): mes = "06";
                 break;
         }
-        f1 = dia+ "/" + mes+ "/" + anio;
+        f1 = dia+ "-" + mes+ "-" + anio;
         fecha = jXDatePicker2.getDate().toString();
         fechaa = fecha.split(" ");
         dia = fechaa[2]; mes = fechaa[1]; anio = fechaa[5];
@@ -182,7 +182,7 @@ public class Consulta1 extends javax.swing.JFrame {
             case ("June"): mes = "06";
                 break;
         }
-        f2 = dia+ "/" + mes+ "/" + anio;
+        f2 = dia+ "-" + mes+ "-" + anio;
         // Fin de recuperar la fecha
         Connection c = null;
         Statement stmt = null;
@@ -195,12 +195,12 @@ public class Consulta1 extends javax.swing.JFrame {
             persona = jComboBox1.getSelectedItem().toString();
             // Ejecuta el query
             String cadena = "";          
-            stmt.executeUpdate(cadena);
+            //stmt.executeUpdate(cadena);
             // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
-            muestraDB();
+            muestraDB(persona,f1,f2);
         }
         catch(Exception e)
         {
@@ -210,14 +210,14 @@ public class Consulta1 extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, f1+ " | " +f2+" : "+persona);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void muestraDB() {
+    public void muestraDB(String nombre, String fecha_1, String fecha_2) {
         // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         String datos[] = new String[7];
         DefaultTableModel modelo = new DefaultTableModel();
         // Genera las columnas
-        modelo.addColumn("");
+        modelo.addColumn("promedio");
         jTable1.setModel(modelo);
         try {
             // Conecta con la base de datos
@@ -226,12 +226,15 @@ public class Consulta1 extends javax.swing.JFrame {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             // Se ejecuta el query para mostrar los datos
-            String cadena = "";            
+            String cadena = "SELECT AVG(num_reacciones) as promedio FROM Persona as e " +
+            "INNER JOIN Post as o ON e.id_persona = o.id_persona " +
+            "WHERE e.id_persona = "+ nombre.split("-")[0] +" AND fecha_post BETWEEN '"+fecha_1+"' AND '"+fecha_2+"';";
+            
             ResultSet rs = stmt.executeQuery(cadena);
             while(rs.next())
             {
                 // Carga los datos a la tabla
-                datos[0] = rs.getString("");
+                datos[0] = rs.getString("promedio");
                 modelo.addRow(datos);
             }
             // Cierra la conexion
