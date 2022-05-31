@@ -1,3 +1,4 @@
+
 // Librerias
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,19 +14,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-<<<<<<< HEAD
-=======
-import org.jdesktop.swingx.JXDatePicker;
->>>>>>> ac58beef6cfa351fc638424e2530f891251f9b61
 
 public class Consulta2 extends javax.swing.JFrame {
     String persona;
+
     public Consulta2() {
         initComponents();
         llenaComboBox();
     }
+
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -56,34 +56,36 @@ public class Consulta2 extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
-        );
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel1)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        Short.MAX_VALUE)))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1)
+                                .addContainerGap()));
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Base de Datos"));
         jPanel2.setToolTipText("");
@@ -93,89 +95,84 @@ public class Consulta2 extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap()));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
         Connection c = null;
         Statement stmt = null;
         try {
             // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial", "postgres", "postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
             persona = jComboBox1.getSelectedItem().toString();
             // Ejecuta el query
-<<<<<<< HEAD
-            
+
             String cadena = "(SELECT P.id_persona, P.nombre, P.nombre_red_social, P.imagen_perfil FROM Amigo as A " +
-            "INNER JOIN Persona as P on A.id_persona_amigo = P.id_persona " +
-            "WHERE A.id_persona = 15 ) " +
-            "UNION " +
-            "(SELECT P.id_persona, P.nombre, P.nombre_red_social, P.imagen_perfil FROM Amigo as A " +
-            "INNER JOIN Persona as P on A.id_persona = P.id_persona " +
-            "WHERE A.id_persona_amigo = 15) "; 
-            
-            //stmt.executeUpdate(cadena);
+                    "INNER JOIN Persona as P on A.id_persona_amigo = P.id_persona " +
+                    "WHERE A.id_persona = 15 ) " +
+                    "UNION " +
+                    "(SELECT P.id_persona, P.nombre, P.nombre_red_social, P.imagen_perfil FROM Amigo as A " +
+                    "INNER JOIN Persona as P on A.id_persona = P.id_persona " +
+                    "WHERE A.id_persona_amigo = 15) ";
+
+            // stmt.executeUpdate(cadena);
             muestraDB();
-=======
-            String cadena = "";          
-            stmt.executeUpdate(cadena);
->>>>>>> ac58beef6cfa351fc638424e2530f891251f9b61
             // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
             muestraDB();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             // En caso de haber un error, este lo muestra en un mensaje
-            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+            JOptionPane.showMessageDialog(null, "Error al mostrar: " + e.toString());
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
-    
+    }// GEN-LAST:event_jButton1ActionPerformed
+
     public void muestraDB() {
         // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
-<<<<<<< HEAD
         persona = jComboBox1.getSelectedItem().toString();
         String datos[] = new String[7];
         DefaultTableModel modelo = new DefaultTableModel();
@@ -184,91 +181,68 @@ public class Consulta2 extends javax.swing.JFrame {
         modelo.addColumn("nombre");
         modelo.addColumn("nombre_red_social");
         modelo.addColumn("imagen_perfil");
-=======
-        String datos[] = new String[7];
-        DefaultTableModel modelo = new DefaultTableModel();
-        // Genera las columnas
-        modelo.addColumn("");
->>>>>>> ac58beef6cfa351fc638424e2530f891251f9b61
         jTable1.setModel(modelo);
         try {
             // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial", "postgres", "postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
             // Se ejecuta el query para mostrar los datos
-<<<<<<< HEAD
             String cadena = "(SELECT P.id_persona, P.nombre, P.nombre_red_social, P.imagen_perfil FROM Amigo as A " +
-            "INNER JOIN Persona as P on A.id_persona_amigo = P.id_persona " +
-            "WHERE A.id_persona = "+ persona.split("-")[0] +" ) " +
-            "UNION " +
-            "(SELECT P.id_persona, P.nombre, P.nombre_red_social, P.imagen_perfil FROM Amigo as A " +
-            "INNER JOIN Persona as P on A.id_persona = P.id_persona " +
-            "WHERE A.id_persona_amigo = "+ persona.split("-")[0] +") ";             
+                    "INNER JOIN Persona as P on A.id_persona_amigo = P.id_persona " +
+                    "WHERE A.id_persona = " + persona.split("-")[0] + " ) " +
+                    "UNION " +
+                    "(SELECT P.id_persona, P.nombre, P.nombre_red_social, P.imagen_perfil FROM Amigo as A " +
+                    "INNER JOIN Persona as P on A.id_persona = P.id_persona " +
+                    "WHERE A.id_persona_amigo = " + persona.split("-")[0] + ") ";
             ResultSet rs = stmt.executeQuery(cadena);
-            
-            while(rs.next())
-            {
+
+            while (rs.next()) {
                 // Carga los datos a la tabla
                 datos[0] = rs.getString("id_persona");
                 datos[1] = rs.getString("nombre");
                 datos[2] = rs.getString("nombre_red_social");
                 datos[3] = rs.getString("imagen_perfil");
                 modelo.addRow(datos);
-                
-=======
-            String cadena = "";            
-            ResultSet rs = stmt.executeQuery(cadena);
-            while(rs.next())
-            {
-                // Carga los datos a la tabla
-                datos[0] = rs.getString("");
-                modelo.addRow(datos);
->>>>>>> ac58beef6cfa351fc638424e2530f891251f9b61
+
             }
             // Cierra la conexion
             stmt.close();
             c.commit();
             c.close();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             // En caso de haber un error, este lo muestra en un mensaje
-            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+            JOptionPane.showMessageDialog(null, "Error al mostrar: " + e.toString());
         }
     }
-    
-    private void llenaComboBox()
-    {
+
+    private void llenaComboBox() {
         // Crea la conexion a la base de datos
         Connection c = null;
         Statement stmt = null;
         try {
             // Conecta con la base de datos
             Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial","postgres","postgres");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/redsocial", "postgres", "postgres");
             c.setAutoCommit(false);
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT id_persona,nombre,nombre_red_social FROM Persona");
             // Limpia los formularios
             jComboBox1.addItem("");
             // Carga a los combobox la informacion
-            while(rs.next())
-            {
+            while (rs.next()) {
                 jComboBox1.addItem(rs.getString("id_persona") + "-" + rs.getString("nombre_red_social"));
             }
             // Cierra la conexión
             stmt.close();
             c.commit();
             c.close();
-        }
-        catch(Exception e)
-        {// En caso de haber un error, este lo muestra en un mensaje
-            JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
+        } catch (Exception e) {// En caso de haber un error, este lo muestra en un mensaje
+            JOptionPane.showMessageDialog(null, "Error al mostrar: " + e.toString());
         }
     }
- 
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
