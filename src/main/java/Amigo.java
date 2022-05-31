@@ -16,7 +16,6 @@ public class Amigo extends javax.swing.JFrame {
         initComponents();
         muestraDB();
         
-        
         if (usuario.compareTo("Usuario") == 0) {
             bloquearBotonesUsuario();
         }else if(usuario.compareTo("Moderador") == 0){
