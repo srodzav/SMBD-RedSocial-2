@@ -292,6 +292,7 @@ public class Amigo extends javax.swing.JFrame {
                             + " WHERE not exists"
                             + " (select * from Amigo where id_persona= " + amgio.split("-")[0] + " AND id_persona_amigo = " + amigoAgregar.split("-")[0] + " "
                                     + "OR id_persona= " + amigoAgregar.split("-")[0] + " AND id_persona_amigo = " + amgio.split("-")[0] + " ) ";          
+            JOptionPane.showMessageDialog(null, cadena);
             stmt.executeUpdate(cadena);
            // Limpia los formularios
             amigoCB.setSelectedIndex(0);

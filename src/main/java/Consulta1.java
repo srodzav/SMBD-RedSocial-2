@@ -38,12 +38,14 @@ public class Consulta1 extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        jXDatePicker2 = new org.jdesktop.swingx.JXDatePicker();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Consulta");
+        setTitle("Reporte promedio de reacciones");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
@@ -54,14 +56,14 @@ public class Consulta1 extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Obten el promedio de reacciones en los post de una persona en determinadas fechas:");
+        jLabel1.setText("Obtenga el promedio de reacciones en los post de una persona en determinadas fechas:");
         jLabel1.setToolTipText("");
 
-        jLabel2.setText("Persona:");
+        jLabel2.setText("Seleccione una persona:");
 
-        jLabel3.setText("Fecha inicial:");
+        jLabel3.setText("Seleccione una fecha inicial:");
 
-        jLabel4.setText("Fecha final:");
+        jLabel4.setText("Seleccione una fecha final:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -72,18 +74,20 @@ public class Consulta1 extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel4))
-                                    .addGap(155, 155, 155))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -96,12 +100,15 @@ public class Consulta1 extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
-                .addComponent(jLabel3)
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -207,17 +214,20 @@ public class Consulta1 extends javax.swing.JFrame {
             // En caso de haber un error, este lo muestra en un mensaje
             JOptionPane.showMessageDialog(null, "Error al mostrar: "+e.toString());
         }
-        JOptionPane.showMessageDialog(null, f1+ " | " +f2+" : "+persona);
+        //JOptionPane.showMessageDialog(null, f1+ " | " +f2+" : "+persona);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void muestraDB(String nombre, String fecha_1, String fecha_2) {
         // Crea la conexion a la base de datos
+        Float numero = null;
         Connection c = null;
         Statement stmt = null;
         String datos[] = new String[7];
         DefaultTableModel modelo = new DefaultTableModel();
         // Genera las columnas
         modelo.addColumn("promedio");
+        modelo.addColumn("persona");
+        modelo.addColumn("total de post");
         jTable1.setModel(modelo);
         try {
             // Conecta con la base de datos
@@ -226,15 +236,18 @@ public class Consulta1 extends javax.swing.JFrame {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             // Se ejecuta el query para mostrar los datos
-            String cadena = "SELECT AVG(num_reacciones) as promedio FROM Persona as e " +
+            String cadena = "SELECT AVG(num_reacciones) as promedio, COUNT (*) AS num_post FROM Persona as e " +
             "INNER JOIN Post as o ON e.id_persona = o.id_persona " +
-            "WHERE e.id_persona = "+ nombre.split("-")[0] +" AND fecha_post BETWEEN '"+fecha_1+"' AND '"+fecha_2+"';";
+            "WHERE e.id_persona = "+ nombre.split("-")[0] +" AND fecha_post BETWEEN '"+fecha_1+"' AND '"+fecha_2+"'"
+                    + " GROUP BY o.id_persona;";
             
             ResultSet rs = stmt.executeQuery(cadena);
             while(rs.next())
             {
+                datos[0] = String.format("%.2f", Float.parseFloat(rs.getString("promedio"))); 
                 // Carga los datos a la tabla
-                datos[0] = rs.getString("promedio");
+                datos[1] = nombre;
+                datos[2] = rs.getString("num_post");
                 modelo.addRow(datos);
             }
             // Cierra la conexion
@@ -298,5 +311,7 @@ public class Consulta1 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
     // End of variables declaration//GEN-END:variables
 }
